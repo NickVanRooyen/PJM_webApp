@@ -1,0 +1,40 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <head>
+        <meta charset="utf-8" />
+        <title>Table Style</title>
+        <meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; width=device-width;">
+        <style>
+            body {
+                    background-image: url('/static/images/portfolioBackground1.jpg');
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                    height: 100%;
+                 }
+            table, th, td {
+                    text-align: center;
+                 }
+            .table-title h3 {
+                   color: #fafafa;
+                   font-size: 30px;
+                   font-weight: 500;
+                   font-style:normal;
+                   font-family: "Roboto", helvetica, arial, sans-serif;
+                   text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+                   text-transform:uppercase;
+                }
+        </style>
+    </head>
+
+    <div class="table-title">
+        <h3>Enter Trade Action</h3>
+    </div>
+    <form action="" method="post">
+        {% csrf_token %}
+        <table>
+        {{ form.as_table }}
+        </table>
+        <input type="submit" value="Submit">
+    </form>
+{% endblock %}
