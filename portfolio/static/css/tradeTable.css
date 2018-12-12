@@ -138,3 +138,19 @@ td.text-center {
 td.text-right {
   text-align: right;
 }
+
+.btn {
+  display: block;
+  width: 100%;
+  padding: 20px;
+  font-family: "Roboto";
+  -webkit-appearance: none;
+  outline: 0;
+  border: 0;
+  color: white;
+  background: #aba194;
+  transition: 0.3s;
+}
+.btn:hover {
+  background: #a09486;
+}

@@ -1,10 +1,18 @@
+
+<!-- remember to call "python manage.py collectstatic" to update edited css -->
 {% extends "base_generic.html" %}
 
 {% block content %}
     <head>
-        <meta charset="utf-8" />
-        <title>Table Style</title>
+        <!-- use to import required fonts-->
+        <link href='https://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
+        {% load static %}
+        <!-- use to link css style sheet to this html so the classes can be used here-->
+        <link rel="stylesheet" href="{% static 'css/tradeInput.css' %}">
+        <!-- this line allows to be used on mobile phones-->
         <meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; width=device-width;">
+
+        <!-- use to override <body> setup, defining background image-->
         <style>
             body {
                     background-image: url('/static/images/portfolioBackground1.jpg');
@@ -14,27 +22,30 @@
                  }
             table, th, td {
                     text-align: center;
-                 }
-            .table-title h3 {
-                   color: #fafafa;
-                   font-size: 30px;
-                   font-weight: 500;
-                   font-style:normal;
-                   font-family: "Roboto", helvetica, arial, sans-serif;
-                   text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
-                   text-transform:uppercase;
-                }
+                    }
+
         </style>
     </head>
 
-    <div class="table-title">
-        <h3>Enter Trade Action</h3>
+    <div class="user">
+        <header class="user__header">
+            <h1 class="user__title">Enter Trade Information</h1>
+        </header>
+
+        <form class="form" method="post">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form__group">
+                <input type="text" class="form__input" placeholder={{ field.label }} name={{ form.name}} />
+            </div>
+            <!--<button class="btn" type="button">Register</button>-->
+            {% endfor %}
+            <input class="btn" type="button" value="Add Trade"/>
+        </form>
     </div>
-    <form action="" method="post">
-        {% csrf_token %}
-        <table>
-        {{ form.as_table }}
-        </table>
-        <input type="submit" value="Submit">
-    </form>
+    <!-- load javascripts at end of html !!! -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script  type="text/javascript" src="{% static 'JS/tradeInput.js' %}"></script>
+
 {% endblock %}
+

@@ -124,3 +124,21 @@ STATIC_ROOT = os.path.join(BASE_DIR, '/')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    # other finders..
+    'django_scss.finders.SCSSFinder',
+)
+
+STATIC_PRECOMPILER_COMPILERS = (
+    ('static_precompiler.compilers.SCSS', {
+        "executable": "/usr/bin/sass",
+        "sourcemap_enabled": True,
+        "compass_enabled": True,
+        "load_paths": ["/path"],
+        "precision": 8,
+        "output_style": "compressed",
+    }),
+)

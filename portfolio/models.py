@@ -17,7 +17,7 @@ class TradeHistory(models.Model):
     # ensure input format when compiling form
     timestamp = models.DateTimeField(null=False, blank=False, help_text='Enter purchase details"')
     id = models.CharField(max_length=100, null=False, blank=False, primary_key=True)
-    action = models.CharField('Action', max_length=4, null=False, blank=False, help_text='"Buy" or "Sell"')
+    action = models.CharField('Action', max_length=4, null=False, blank=False, default='Buy', help_text='"Buy" or "Sell"')
 
     def save(self):
         self.id = '%s_%s' % (self.ticker, str(self.timestamp))
@@ -33,7 +33,7 @@ class Trade(models.Model):
     quantity = models.IntegerField('Quantity', null=False, blank=False, default=0)
     # ensure input format when compiling form
     timestamp = models.DateTimeField('TimeStamp', null=False, blank=False, help_text='Enter purchase date and time"')
-    action = models.CharField('Action', max_length=4, null=False, blank=False, help_text='"Buy" or "Sell"')
+    action = models.CharField('Action', max_length=4, null=False, blank=False, default='Buy', help_text='"Buy" or "Sell"')
 
     long_name = 'N/A'
     instrument = 'N/A'
