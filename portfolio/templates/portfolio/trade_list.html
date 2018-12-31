@@ -6,6 +6,8 @@
         <meta charset="utf-8" />
         <title>Table Style</title>
         <meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; width=device-width;">
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/tradeTable.css' %}">
         <style>
             body {
                     background-image: url('/static/images/portfolioBackground1.jpg');
@@ -18,8 +20,6 @@
                     }
         </style>
         <!-- remember to python manage.py collectstatic to ensure static is updates -->
-        {% load static %}
-        <link rel="stylesheet" href="{% static 'css/tradeTable.css' %}">
     </head>
 
     {% if trade_list %}

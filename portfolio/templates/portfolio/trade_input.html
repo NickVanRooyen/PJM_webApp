@@ -1,24 +1,35 @@
 
 <!-- remember to call "python manage.py collectstatic" to update edited css -->
+<!-- conflicting version of bootstrap in base hml prevented bootstrap datepicker from opening-->
 {% extends "base_generic.html" %}
 
+
 {% block content %}
+<!-- bootstrap loaders must be inside block -->
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+
     <head>
         <!-- use to import required fonts-->
         <link href='https://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
         {% load static %}
         <!-- use to link css style sheet to this html so the classes can be used here-->
         <link rel="stylesheet" href="{% static 'css/tradeInput.css' %}">
+
         <!-- this line allows to be used on mobile phones-->
         <meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; width=device-width;">
 
+
         <!-- use to override <body> setup, defining background image-->
+        <!-- overflow: hidden removes scroll bars -->
         <style>
             body {
                     background-image: url('/static/images/portfolioBackground1.jpg');
                     background-repeat: no-repeat;
                     background-size: cover;
                     height: 100%;
+                    overflow: hidden;
                  }
             table, th, td {
                     text-align: center;
@@ -34,18 +45,19 @@
 
         <form class="form" method="post">
             {% csrf_token %}
+            <!-- bootstrap date picker needs form media presented to load all JS and CSS needed to display calendar-->
+            {{ form.media }}
             {% for field in form %}
-            <div class="form__group">
-                <input type="text" class="form__input" placeholder={{ field.label }} name={{ form.name}} />
-            </div>
+            <!--<input type="text" class="form__input" placeholder={{ field.label }} name={{ form.name}}/>-->
+                {{ field }}
             <!--<button class="btn" type="button">Register</button>-->
             {% endfor %}
-            <input class="btn" type="button" value="Add Trade"/>
+            <input class="btn" type="submit" value="Add Trade"/>
         </form>
     </div>
-    <!-- load javascripts at end of html !!! -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script  type="text/javascript" src="{% static 'JS/tradeInput.js' %}"></script>
+
+<!-- need moment for bootstrap datepicker-->
+<script src="//cdn.bootcss.com/moment.js/2.17.1/moment.min.js"></script>
 
 {% endblock %}
 

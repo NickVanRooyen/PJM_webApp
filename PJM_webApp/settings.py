@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'portfolio.apps.PortfolioConfig'
+    'portfolio.apps.PortfolioConfig',
+    'bootstrap3',
+    'bootstrap_datepicker_plus',
 ]
 
 MIDDLEWARE = [
@@ -142,3 +144,7 @@ STATIC_PRECOMPILER_COMPILERS = (
         "output_style": "compressed",
     }),
 )
+
+BOOTSTRAP3 = {
+    'include_jquery': True,
+}

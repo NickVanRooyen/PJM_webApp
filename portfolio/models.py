@@ -10,14 +10,14 @@ from django.urls import reverse
 class TradeHistory(models.Model):
     """ model for trade history """
     # set ticker as primary key
-    ticker = models.CharField(max_length=7, null=False, blank=False)
-    price = models.DecimalField(null=False, blank=False, max_digits=20, default=0.0, decimal_places=2)
-    currency = models.CharField(null=False, blank=False, max_length=3, help_text='3 letter currency code')
-    quantity = models.IntegerField(null=False, blank=False, default=0)
+    ticker = models.CharField(max_length=7)
+    price = models.DecimalField(max_digits=20, default=0.0, decimal_places=2)
+    currency = models.CharField(max_length=3, help_text='3 letter currency code')
+    quantity = models.IntegerField(default=0)
     # ensure input format when compiling form
-    timestamp = models.DateTimeField(null=False, blank=False, help_text='Enter purchase details"')
-    id = models.CharField(max_length=100, null=False, blank=False, primary_key=True)
-    action = models.CharField('Action', max_length=4, null=False, blank=False, default='Buy', help_text='"Buy" or "Sell"')
+    timestamp = models.DateTimeField(help_text='Enter purchase details"')
+    id = models.CharField(max_length=100, primary_key=True)
+    action = models.CharField('Action', max_length=4)
 
     def save(self):
         self.id = '%s_%s' % (self.ticker, str(self.timestamp))
@@ -26,14 +26,19 @@ class TradeHistory(models.Model):
 
 class Trade(models.Model):
     """ model for trade instances """
+
+    ACTIONS = (('', 'Action'),
+               ("buy", "BUY"),
+               ("sell", "SELL"),)
+
     # set ticker as primary key
-    ticker = models.CharField('Ticker', max_length=7, null=False, blank=False, primary_key=True)
-    price = models.DecimalField('Price', null=False, blank=False, max_digits=20, default=0.0, decimal_places=2)
-    currency = models.CharField('Currency', null=False, blank=False, max_length=3, help_text='3 letter currency code')
-    quantity = models.IntegerField('Quantity', null=False, blank=False, default=0)
+    ticker = models.CharField('Ticker', max_length=7, primary_key=True, blank=True)
+    price = models.DecimalField('Price', max_digits=20, decimal_places=2, blank=True)
+    currency = models.CharField('Currency', max_length=3, help_text='3 letter currency code', blank=True)
+    quantity = models.IntegerField('Quantity', blank=True)
     # ensure input format when compiling form
-    timestamp = models.DateTimeField('TimeStamp', null=False, blank=False, help_text='Enter purchase date and time"')
-    action = models.CharField('Action', max_length=4, null=False, blank=False, default='Buy', help_text='"Buy" or "Sell"')
+    timestamp = models.DateTimeField('TimeStamp', help_text='Enter purchase date and time"', blank=True)
+    action = models.CharField('Action', max_length=4, choices=ACTIONS, help_text='"BUY" or "SELL"', blank=True)
 
     long_name = 'N/A'
     instrument = 'N/A'

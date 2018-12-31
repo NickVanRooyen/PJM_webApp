@@ -8,6 +8,7 @@ body {
   font-family: "Roboto";
   font-size: 14px;
   transform: translate3d(0, 0, 0);
+  overflow: hidden;
 }
 .user {
   width: 90%;
@@ -32,16 +33,27 @@ body {
 
 .form {
   margin-top: 40px;
-  border-radius: 6px;
-  overflow: hidden;
   transform: translate3d(0, 800px, 0);
   animation: arrive 500ms ease-in-out 0.9s forwards;
 }
+
+
+/* Add this class to turn off animations used to load the original form so when refresh "shaker" animation it doesnt reload the form */
+.form--overwrite {
+  animation: none;
+  opacity: 1;
+  overflow: hidden;
+  transform: none;
+}
+
 .form--no {
   animation: NO 1s ease-in-out;
   opacity: 1;
+  overflow: hidden;
   transform: translate3d(0, 0, 0);
 }
+
+
 .form__input {
   display: block;
   width: 100%;
@@ -51,10 +63,31 @@ body {
   border: 0;
   outline: 0;
   transition: 0.3s;
+  overflow: hidden;
 }
+
+/* use different class for top field so can have rounded edges. Problem is that if we applied the rounded edges to
+"form" parent class, the overflow would need to be hidden, but this would then hide the calender from the date picker,
+and there is no way to overwrite the parent. Thus create different classes so the overflow isnt applied to date picker */
+
+.form__input__top {
+  display: block;
+  width: 100%;
+  padding: 20px;
+  font-family: "Roboto";
+  -webkit-appearance: none;
+  border: 0;
+  outline: 0;
+  transition: 0.3s;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  overflow: hidden;
+}
+
 .form__input:focus {
   background: #f7f7f7;
 }
+
 
 .btn {
   display: block;
@@ -65,12 +98,17 @@ body {
   outline: 0;
   border: 0;
   color: white;
+  box-shadow: none;
   background: #aba194;
   transition: 0.3s;
 }
-
+.btn:focus {
+    outline: 0;
+    box-shadow: none;
+}
 .btn:hover {
   background: #a09486;
+  outline: 0;
 }
 
 @keyframes NO {
@@ -108,51 +146,3 @@ body {
     background-position: 0 0;
   }
 }
-
-/* Tooltip container */
-.tooltip {
-  position: relative;
-  display: inline-block;
-  border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
-}
-
-/* Tooltip text */
-.tooltip .tooltiptext {
-  visibility: hidden;
-  width: 120px;
-  background-color: #555;
-  color: #fff;
-  text-align: center;
-  padding: 5px 0;
-  border-radius: 6px;
-
-  /* Position the tooltip text */
-  position: absolute;
-  z-index: 1;
-  bottom: 125%;
-  left: 50%;
-  margin-left: -60px;
-
-  /* Fade in tooltip */
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-/* Tooltip arrow */
-.tooltip .tooltiptext::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #555 transparent transparent transparent;
-}
-
-/* Show the tooltip text when you mouse over the tooltip container */
-.tooltip:hover .tooltiptext {
-  visibility: visible;
-  opacity: 1;
-}
-
