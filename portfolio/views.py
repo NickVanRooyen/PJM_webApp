@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.views import generic
+import pdb
 
 from portfolio.forms import TradeInputForm
 from portfolio.models import Trade
@@ -54,6 +55,9 @@ def tradeInputView(request):
 
             # redirect to a new URL:
             return HttpResponseRedirect(reverse('portfolio'))
+        else:
+            pdb.set_trace()
+            print('dead')
 
     # If this is a GET (or any other method) create the default form.
     else:

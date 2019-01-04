@@ -49,15 +49,19 @@
             {{ form.media }}
             {% for field in form %}
             <!--<input type="text" class="form__input" placeholder={{ field.label }} name={{ form.name}}/>-->
-                {{ field }}
+                <div class = form__group>
+                    {{ field }}
+                </div>
             <!--<button class="btn" type="button">Register</button>-->
             {% endfor %}
+
             <input class="btn" type="submit" value="Add Trade"/>
         </form>
     </div>
 
 <!-- need moment for bootstrap datepicker-->
 <script src="//cdn.bootcss.com/moment.js/2.17.1/moment.min.js"></script>
+<script src="{% static 'JS/tradeInput.js' %}"></script>
 
 {% endblock %}
 
