@@ -57,6 +57,21 @@
 
             <input class="btn" type="submit" value="Add Trade"/>
         </form>
+        <!-- loop errors and display in table-->
+        {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endif %}
     </div>
 
 <!-- need moment for bootstrap datepicker-->

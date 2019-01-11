@@ -52,12 +52,13 @@ def tradeInputView(request):
 
         # Check if the form is valid:
         if form.is_valid():
+            form.save()
 
             # redirect to a new URL:
             return HttpResponseRedirect(reverse('portfolio'))
         else:
-            pdb.set_trace()
-            print('dead')
+            #pdb.set_trace()
+            print(form.errors)
 
     # If this is a GET (or any other method) create the default form.
     else:
