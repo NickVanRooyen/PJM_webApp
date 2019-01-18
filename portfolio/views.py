@@ -52,11 +52,13 @@ def tradeInputView(request):
 
         # Check if the form is valid:
         if form.is_valid():
+            # saves to database
             form.save()
 
             # redirect to a new URL:
             return HttpResponseRedirect(reverse('portfolio'))
         else:
+            ## use pcb to debug django in console
             #pdb.set_trace()
             print(form.errors)
 

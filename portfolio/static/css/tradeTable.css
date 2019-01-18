@@ -1,22 +1,17 @@
 
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100);
 
-body {
-  background-color: #3e94ec;
-  font-family: "Roboto", helvetica, arial, sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-  text-rendering: optimizeLegibility;
-}
 
-div.table-title {
-   display: block;
+/* use margin auto to centre stuff */
+.mainBlock {
+  width: 90%;
   margin: auto;
-  padding:5px;
-  width: 100%;
-}
 
-.table-title h3 {
+}
+.mainBlock__header {
+  text-align: center;
+}
+.mainBlock__title {
    color: #fafafa;
    font-size: 30px;
    font-weight: 500;
@@ -26,7 +21,6 @@ div.table-title {
    text-transform:uppercase;
 }
 
-
 /*** Table Styles **/
 
 .table-fill {
@@ -35,10 +29,9 @@ div.table-title {
   border-collapse: collapse;
   height: 100px;
   margin: auto;
-  padding:5px;
-  width: 100%;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
   animation: float 5s infinite;
+  width: 100%;
 }
 
 th {
@@ -139,9 +132,9 @@ td.text-right {
   text-align: right;
 }
 
+/*** use 1em auto to have one blank line above and below button, and left and right margins are auto to centre **/
 .btn {
   display: block;
-  width: 15%;
   padding: 20px;
   font-family: "Roboto";
   -webkit-appearance: none;
@@ -150,7 +143,17 @@ td.text-right {
   color: white;
   background: #aba194;
   transition: 0.3s;
+  width: 20%;
+  margin: 1em auto;
 }
 .btn:hover {
   background: #a09486;
+}
+
+.NegativeValue {
+  color: #FF0000;
+}
+
+.PositiveValue {
+  color: blue;
 }

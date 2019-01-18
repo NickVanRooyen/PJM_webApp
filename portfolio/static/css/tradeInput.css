@@ -1,15 +1,4 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
 
-body {
-  font-family: "Roboto";
-  font-size: 14px;
-  transform: translate3d(0, 0, 0);
-  overflow: hidden;
-}
 .user {
   width: 90%;
   max-width: 340px;

@@ -5,11 +5,7 @@
 
 
 {% block content %}
-<!-- bootstrap loaders must be inside block -->
-{% load bootstrap3 %}
-{% bootstrap_css %}
-{% bootstrap_javascript jquery='full' %}
-
+<!--&lt;!&ndash; bootstrap loaders must be inside block &ndash;&gt;-->
     <head>
         <!-- use to import required fonts-->
         <link href='https://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
@@ -29,7 +25,6 @@
                     background-repeat: no-repeat;
                     background-size: cover;
                     height: 100%;
-                    overflow: hidden;
                  }
             table, th, td {
                     text-align: center;
@@ -56,27 +51,29 @@
             {% endfor %}
 
             <input class="btn" type="submit" value="Add Trade"/>
-        </form>
-        <!-- loop errors and display in table-->
-        {% if form.errors %}
-            {% for field in form %}
-                {% for error in field.errors %}
+            <!-- loop errors and display in table-->
+            {% if form.errors %}
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
                     <div class="alert alert-danger">
                         <strong>{{ error|escape }}</strong>
                     </div>
                 {% endfor %}
-            {% endfor %}
-            {% for error in form.non_field_errors %}
-                <div class="alert alert-danger">
-                    <strong>{{ error|escape }}</strong>
-                </div>
-            {% endfor %}
-        {% endif %}
+            {% endif %}
+        </form>
+
     </div>
 
 <!-- need moment for bootstrap datepicker-->
 <script src="//cdn.bootcss.com/moment.js/2.17.1/moment.min.js"></script>
 <script src="{% static 'JS/tradeInput.js' %}"></script>
+
 
 {% endblock %}
 

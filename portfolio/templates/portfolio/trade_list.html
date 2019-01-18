@@ -1,10 +1,8 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-
     <head>
         <meta charset="utf-8" />
-        <title>Table Style</title>
         <meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; width=device-width;">
         {% load static %}
         <link rel="stylesheet" href="{% static 'css/tradeTable.css' %}">
@@ -22,36 +20,63 @@
         <!-- remember to python manage.py collectstatic to ensure static is updates -->
     </head>
 
+    <div class = mainBlock>
     {% if trade_list %}
-        <div class="table-title">
-            <h3>Trade List</h3>
-        </div>
-        <table class="table-fill">
+        <header class="mainBlock__header">
+            <h1 class="mainBlock__title">Trade List</h1>
+        </header>
+        <table class="table-fill" align="center">
             <thead>
                 <tr>
                   <th>Ticker</th>
                   <th>Long Name</th>
                   <th>Purchase Price</th>
-                  <th>Total Investment</th>
-                  <th>Purchase Date</th>
                   <th>Current Price</th>
+                  <th>Currency</th>
                   <th>Price Change</th>
                   <th>PnL</th>
                   <th>PnL %</th>
+                  <th>Quantity</th>
+                  <th>Total Investment</th>
+
+                  <th>Purchase Date</th>
+
                 </tr>
             </thead>
+
+
+
             <tbody class="table-hover">
                 {% for trade in trade_list %}
                     <tr>
                         <td>{{trade.ticker}}</td>
                         <td>{{trade.long_name}}</td>
                         <td>{{trade.price}}</td>
+                        <td>{{trade.current_price}}</td>
+                        <td>{{trade.currency}}</td>
+
+                        {% if trade.price_change|first == "-" %}
+                             <td class="NegativeValue">{{trade.price_change}}</td>
+                        {% else %}
+                            <td class="PositiveValue">{{trade.price_change}}</td>
+                        {% endif %}
+
+                        {% if trade.pnl|first == "-" %}
+                             <td class="NegativeValue">{{trade.pnl}}</td>
+                        {% else %}
+                            <td class="PositiveValue">{{trade.pnl}}</td>
+                        {% endif %}
+
+                        {% if trade.pnlPercent|first == "-" %}
+                             <td class="NegativeValue">{{trade.pnlPercent}}</td>
+                        {% else %}
+                            <td class="PositiveValue">{{trade.pnlPercent}}</td>
+                        {% endif %}
+
+                        <td>{{trade.quantity}}</td>
                         <td>{{trade.total_investment_format}}</td>
                         <td>{{trade.timestamp}}</td>
-                        <td>{{trade.current_price}}</td>
-                        <td>{{trade.price_change}}</td>
-                        <td>{{trade.pnl}}</td>
-                        <td>{{trade.pnlPercent}}</td>
+
                     </tr>
                 {% endfor %}
             </tbody>
@@ -65,4 +90,6 @@
     <form>
         <button class=btn formaction="{% url 'tradeInput' %}">Add New Trade</button>
     </form>
+    </div>
+
 {% endblock %}

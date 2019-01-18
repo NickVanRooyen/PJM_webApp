@@ -15,6 +15,8 @@ class TradeInputForm(ModelForm):
         model = Trade
         fields = ['ticker', 'price', 'currency', 'quantity', 'timestamp', 'action']
 
+        # set LANGUAGE_CODE = 'en-GB' in settings to get correct date format in picker
+        # time format is HH for 24h, and have to use mm not MM for minutes
         widgets = {
             'ticker': TextInput(attrs={'class': 'form__input__top', 'placeholder': 'Ticker'}),
             'price': TextInput(attrs={'class': "form__input", 'placeholder': 'Price'}),
