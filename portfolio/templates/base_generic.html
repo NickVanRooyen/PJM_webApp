@@ -38,9 +38,11 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Portfolio <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                       <li><a href="{% url 'portfolio' %}">Live Portfolio</a></li>
-                      <li class="divider"></li>
-                      <li><a href="#">Order History</a></li>
                       <li><a href="#">Portfolio Performance</a></li>
+                      <li class="divider"></li>
+                      <li><a href="{% url 'orderHistory' %}">Order History</a></li>
+                      <li><a href="{% url 'accounts' %}">Broker Accounts</a></li>
+
                     </ul>
                 </li>
                 <li class="dropdown">

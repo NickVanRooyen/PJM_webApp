@@ -35,7 +35,7 @@
 
     <div class="user">
         <header class="user__header">
-            <h1 class="user__title">Enter Trade Information</h1>
+            <h1 class="user__title">Enter Broker Account Information</h1>
         </header>
 
         <form class="form" method="post">
@@ -50,7 +50,7 @@
             <!--<button class="btn" type="button">Register</button>-->
             {% endfor %}
 
-            <input class="btn" type="submit" value="Add Trade"/>
+            <input class="btn" type="submit" value="Add Account"/>
 
             <!-- loop errors and display in table-->
             {% if form.errors %}
@@ -71,8 +71,6 @@
 
     </div>
 
-<!-- need moment for bootstrap datepicker-->
-<script src="//cdn.bootcss.com/moment.js/2.17.1/moment.min.js"></script>
 <script src="{% static 'JS/tradeInput.js' %}"></script>
 
 

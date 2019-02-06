@@ -1,0 +1,78 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; width=device-width;">
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/tradeTable.css' %}">
+        <style>
+            body {
+                    background-image: url('/static/images/portfolioBackground1.jpg');
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                    height: 100%;
+                 }
+            table, th, td {
+                    text-align: center;
+                    }
+        </style>
+        <!-- remember to python manage.py collectstatic to ensure static is updates -->
+    </head>
+
+    <div class = mainBlock>
+    {% if tradehistory_list %}
+        <header class="mainBlock__header">
+            <h1 class="mainBlock__title">Order History</h1>
+        </header>
+        <table class="table-fill" align="center">
+            <thead>
+                <tr>
+                  <th>Ticker</th>
+                  <th>Long Name</th>
+                  <th>Sector</th>
+                  <th>Industry</th>
+                  <th>Instrument</th>
+                  <th>Price</th>
+                  <th>Fee</th>
+                  <th>Currency</th>
+                  <th>Quantity</th>
+                  <th>Time Stamp</th>
+                  <th>Account</th>
+                  <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody class="table-hover">
+                {% for order in tradehistory_list %}
+                    <tr>
+                        <td>{{order.ticker}}</td>
+                        <td>{{order.long_name}}</td>
+                        <td>{{order.sector}}</td>
+                        <td>{{order.industry}}</td>
+                        <td>{{order.instrument}}</td>
+                        <td>{{order.price}}</td>
+                        <td>{{order.fee}}</td>
+                        <td>{{order.currency}}</td>
+                        <td>{{order.quantity}}</td>
+                        <td>{{order.timestamp}}</td>
+                        <td>{{order.account}}</td>
+
+                        {% if order.action == "sell" %}
+                             <td class="NegativeValue">{{order.action}}</td>
+                        {% else %}
+                            <td class="PositiveValue">{{order.action}}</td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="table-title">
+            <h3>There is no history.</h3>
+        </div>
+
+    {% endif %}
+    </div>
+
+{% endblock %}

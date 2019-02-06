@@ -73,6 +73,10 @@ and there is no way to overwrite the parent. Thus create different classes so th
   overflow: hidden;
 }
 
+.form__input__top:focus {
+  background: #f7f7f7;
+}
+
 .form__input:focus {
   background: #f7f7f7;
 }
@@ -86,9 +90,9 @@ and there is no way to overwrite the parent. Thus create different classes so th
   -webkit-appearance: none;
   outline: 0;
   border: 0;
-  color: white;
+  color: #D5DDE5;
+  background: #1b1e24;
   box-shadow: none;
-  background: #aba194;
   transition: 0.3s;
 }
 .btn:focus {
@@ -96,7 +100,8 @@ and there is no way to overwrite the parent. Thus create different classes so th
     box-shadow: none;
 }
 .btn:hover {
-  background: #a09486;
+  background: #4E5066;
+  color: white;
   outline: 0;
 }
 

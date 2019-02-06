@@ -30,6 +30,8 @@
                 <tr>
                   <th>Ticker</th>
                   <th>Long Name</th>
+                  <th>Industry</th>
+                  <th>Instrument</th>
                   <th>Purchase Price</th>
                   <th>Current Price</th>
                   <th>Currency</th>
@@ -38,8 +40,8 @@
                   <th>PnL %</th>
                   <th>Quantity</th>
                   <th>Total Investment</th>
-
                   <th>Purchase Date</th>
+                  <th>Account</th>
 
                 </tr>
             </thead>
@@ -51,6 +53,8 @@
                     <tr>
                         <td>{{trade.ticker}}</td>
                         <td>{{trade.long_name}}</td>
+                        <td>{{trade.industry}}</td>
+                        <td>{{trade.instrument}}</td>
                         <td>{{trade.price}}</td>
                         <td>{{trade.current_price}}</td>
                         <td>{{trade.currency}}</td>
@@ -76,6 +80,7 @@
                         <td>{{trade.quantity}}</td>
                         <td>{{trade.total_investment_format}}</td>
                         <td>{{trade.timestamp}}</td>
+                        <td>{{trade.account}}</td>
 
                     </tr>
                 {% endfor %}

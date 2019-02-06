@@ -4,7 +4,7 @@
 
 /* use margin auto to centre stuff */
 .mainBlock {
-  width: 90%;
+  width: 95%;
   margin: auto;
 
 }
@@ -27,7 +27,6 @@
   background: white;
   border-radius:3px;
   border-collapse: collapse;
-  height: 100px;
   margin: auto;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
   animation: float 5s infinite;
@@ -62,6 +61,7 @@ tr {
   font-size:16px;
   font-weight:normal;
   text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
+  line-height: 30px;
 }
 
 tr:hover td {
@@ -140,14 +140,15 @@ td.text-right {
   -webkit-appearance: none;
   outline: 0;
   border: 0;
-  color: white;
-  background: #aba194;
+  color: #D5DDE5;
+  background: #1b1e24;
   transition: 0.3s;
   width: 20%;
   margin: 1em auto;
 }
 .btn:hover {
-  background: #a09486;
+  background: #4E5066;
+  color: white;
 }
 
 .NegativeValue {

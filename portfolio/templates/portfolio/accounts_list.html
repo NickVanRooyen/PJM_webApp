@@ -1,0 +1,65 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; width=device-width;">
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/tradeTable.css' %}">
+        <style>
+            body {
+                    background-image: url('/static/images/portfolioBackground1.jpg');
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                    height: 100%;
+                 }
+            table, th, td {
+                    text-align: center;
+                    }
+        </style>
+        <!-- remember to python manage.py collectstatic to ensure static is updates -->
+    </head>
+
+    <div class = mainBlock>
+    {% if accounts_list %}
+        <header class="mainBlock__header">
+            <h1 class="mainBlock__title">Account List</h1>
+        </header>
+        <table class="table-fill" align="center">
+            <thead>
+                <tr>
+                  <th>Broker</th>
+                  <th>Account ID</th>
+                  <th>Currency</th>
+                  <th>Balance</th>
+                </tr>
+            </thead>
+
+            <tbody class="table-hover">
+                {% for account in accounts_list %}
+                    <tr>
+                        <td>{{account.broker}}</td>
+                        <td>{{account.account}}</td>
+                        <td>{{account.ccy}}</td>
+
+                        {% if account.balance|first == "-" %}
+                             <td class="NegativeValue">{{account.balance}}</td>
+                        {% else %}
+                            <td class="PositiveValue">{{account.balance}}</td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="table-title">
+            <h3>There are no live accounts.</h3>
+        </div>
+
+    {% endif %}
+    <form>
+        <button class=btn formaction="{% url 'accountInput' %}">Add New Account</button>
+    </form>
+    </div>
+
+{% endblock %}

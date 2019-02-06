@@ -5,6 +5,7 @@ from django.db import models
 
 # portfolio model to store portfolio info
 from django.urls import reverse
+import pdb
 
 
 class TradeHistory(models.Model):
@@ -18,10 +19,16 @@ class TradeHistory(models.Model):
     timestamp = models.DateTimeField(help_text='Enter purchase details"')
     id = models.CharField(max_length=100, primary_key=True)
     action = models.CharField('Action', max_length=4)
+    account = models.CharField('Broker Account', max_length=20, blank=True)
+    fee = models.DecimalField(max_digits=20, default=0.0, decimal_places=2)
+    sector = models.CharField('Sector', max_length=50, blank=True)
+    industry = models.CharField('Industry', max_length=50, blank=True)
+    long_name = models.CharField('Long Name', max_length=50, blank=True)
+    instrument = models.CharField('Instrument', max_length=50, blank=True)
 
-    # def save(self):
-    #     self.id = '%s_%s' % (self.ticker, str(self.timestamp))
-    #     super(TradeHistory, self).save()
+    def save(self, *args, **kwargs):
+        self.id = '%s_%s' % (self.ticker, str(self.timestamp))
+        super(TradeHistory, self).save(*args, **kwargs)
 
 
 class Trade(models.Model):
@@ -44,9 +51,12 @@ class Trade(models.Model):
     # ensure input format when compiling form
     timestamp = models.DateTimeField('TimeStamp', help_text='Enter purchase date and time"', blank=True)
     action = models.CharField('Action', max_length=4, choices=ACTIONS, help_text='"BUY" or "SELL"', blank=True)
+    account = models.CharField('Broker Account', max_length=20, blank=True)
+    sector = models.CharField('Sector', max_length=50, blank=True)
+    industry = models.CharField('Industry', max_length=50, blank=True)
+    long_name = models.CharField('Long Name', max_length=50, blank=True)
+    instrument = models.CharField('Instrument', max_length=50, blank=True)
 
-    long_name = 'N/A'
-    instrument = 'N/A'
     current_price = 'N/A'
     price_change = 'N/A'
     pnlPercent = 'N/A'
@@ -63,3 +73,35 @@ class Trade(models.Model):
     # def get_absolute_url(self):
     #     # return the url to access the detail record of this trade
     #     return reverse('trade-detail', args=[str(self.ticker)])
+
+
+# method to set primary key
+def get_account(broker, ccy):
+    return '%s_%s' % (broker, ccy)
+
+
+class Accounts(models.Model):
+    """ model for cash accounts """
+
+    CCYS = (('', 'Currency'),
+            ("EUR", "EUR"),
+            ("GBP", "GBP"),
+            ("USD", "USD"),)
+
+    # set ticker as primary key
+    # define account that holds cash
+    account = models.CharField('Account Name', max_length=20, blank=True, primary_key=True)
+    broker = models.CharField('Broker', max_length=20, blank=True)
+    ccy = models.CharField('Currency Account', max_length=3, blank=True, choices=CCYS)
+    balance = models.DecimalField('Balance', max_digits=20, decimal_places=2, blank=True)
+
+    # override the save method to create an account id before saving.
+    def save(self, *args, **kwargs):
+        self.account = '%s_%s' % (self.broker, self.ccy)
+        super(Accounts, self).save(*args, **kwargs)
+
+    def __str__(self):
+        # string to be used to represent the account instance
+        return self.account
+
+
