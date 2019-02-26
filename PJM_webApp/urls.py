@@ -37,6 +37,7 @@ urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 urlpatterns += [
     path('input trade/', views.tradeInputView, name='tradeInput'),
-    path('input account/', views.accountInputView, name='accountInput')
+    path('input account/', views.accountInputView, name='accountInput'),
+    path('edit portfolio/', views.portfolioEditView, name='portfolioEdit'),
 ]
 

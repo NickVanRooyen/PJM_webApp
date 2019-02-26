@@ -1,0 +1,80 @@
+
+<!-- remember to call "python manage.py collectstatic" to update edited css -->
+<!-- conflicting version of bootstrap in base hml prevented bootstrap datepicker from opening-->
+{% extends "base_generic.html" %}
+
+
+{% block content %}
+<!--&lt;!&ndash; bootstrap loaders must be inside block &ndash;&gt;-->
+    <head>
+        <!-- use to import required fonts-->
+        <link href='https://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
+        {% load static %}
+        <!-- use to link css style sheet to this html so the classes can be used here-->
+        <link rel="stylesheet" href="{% static 'css/tradeInput.css' %}">
+
+        <!-- this line allows to be used on mobile phones-->
+        <meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; width=device-width;">
+
+
+        <!-- use to override <body> setup, defining background image-->
+        <!-- overflow: hidden removes scroll bars -->
+        <style>
+            body {
+                    background-image: url('/static/images/portfolioBackground1.jpg');
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                    height: 100%;
+                 }
+            table, th, td {
+                    text-align: center;
+                    }
+
+        </style>
+    </head>
+
+    <div class="user">
+        <header class="user__header">
+            <h1 class="user__title">Enter Trade Information</h1>
+        </header>
+
+        <form class="form" method="post">
+            {% csrf_token %}
+            <!-- bootstrap date picker needs form media presented to load all JS and CSS needed to display calendar-->
+            {{ form.media }}
+            {% for field in form %}
+            <!--<input type="text" class="form__input" placeholder={{ field.label }} name={{ form.name}}/>-->
+                <div class = form__group>
+                    {{ field }}
+                </div>
+            <!--<button class="btn" type="button">Register</button>-->
+            {% endfor %}
+
+            <input class="btn" type="submit" value="Submit"/>
+
+            <!-- loop errors and display in table-->
+            {% if form.errors %}
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </form>
+
+    </div>
+
+<!-- need moment for bootstrap datepicker-->
+<script src="//cdn.bootcss.com/moment.js/2.17.1/moment.min.js"></script>
+<script src="{% static 'JS/tradeInput.js' %}"></script>
+
+
+{% endblock %}
+

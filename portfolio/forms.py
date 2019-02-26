@@ -97,10 +97,56 @@ class AccountInputForm(ModelForm):
             'balance': TextInput(attrs={'class': 'form__input', 'placeholder': 'Balance'}),
         }
 
-    # custom validation of timesta
+    # custom validation of account balance
     def clean_balance(self):
         data = self.cleaned_data['balance']
         if data < 0:
             raise ValidationError('Balance must be greater than 0')
         return data
+
+
+# create ModelForm class for editing portfolio line items, this will use all the same fields and field criteria
+class PortfolioEditForm(ModelForm):
+
+    class Meta:
+        model = Trade
+        fields = ['ticker', 'price', 'currency', 'quantity', 'timestamp', 'action', 'account', 'sector', 'industry',
+                  'long_name', 'instrument']
+
+        widgets = {
+            'ticker': TextInput(attrs={'class': 'form__input__top', 'placeholder': 'Ticker'}),
+            'long_name': TextInput(attrs={'class': "form__input", 'placeholder': 'Long Name'}),
+            'instrument': TextInput(attrs={'class': "form__input", 'placeholder': 'Instrument'}),
+            'sector': TextInput(attrs={'class': "form__input", 'placeholder': 'Sector'}),
+            'industry': TextInput(attrs={'class': "form__input", 'placeholder': 'Industry'}),
+            'price': TextInput(attrs={'class': "form__input", 'placeholder': 'Price'}),
+            'currency': Select(attrs={'class': 'form__input', 'placeholder': 'Currency', 'initial': 'Currency'}),
+            'quantity': TextInput(attrs={'class': 'form__input', 'placeholder': 'Quantity'}),
+            'timestamp': DateTimePickerInput(format='%d/%m/%Y HH:mm', attrs={'placeholder': 'Purchase Date'}),
+            'action': Select(attrs={'class': 'form__input', 'placeholder': 'Action', 'initial': 'Action'}),
+        }
+
+    # add functionality to init to dynamically change the account field to a choice list of available broker accounts
+    def __init__(self,ticker, long_name, instrument,sector, industry, price, currency, quantity, timestamp, action,
+                 account,
+                 *args, **kwargs):
+        # call super init so that weperform original init, then perform our additional changes
+        super(PortfolioEditForm, self).__init__(*args, **kwargs)
+        choices = (('', 'Broker Account'),) + tuple(Accounts.objects.values_list('account', 'account'))
+        # reset the field as a choice field
+        self.fields['account'] = forms.ChoiceField(choices=choices, label="Broker Account", required=False,
+                                                   help_text='Must have at least one broker account set up',
+                                                   widget=Select(attrs={'class': 'form__input',
+                                                                        'placeholder': 'Broker Account'}))
+        self.fields['ticker'].initial = ticker
+        self.fields['long_name'].initial = long_name
+        self.fields['instrument'].initial = instrument
+        self.fields['sector'].initial = sector
+        self.fields['industry'].initial = industry
+        self.fields['price'].initial = price
+        self.fields['currency'].initial = currency
+        self.fields['quantity'].initial = quantity
+        self.fields['timestamp'].initial = timestamp
+        self.fields['action'].initial = action
+
 

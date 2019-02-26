@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.views import generic
 import pdb
 
-from portfolio.forms import TradeInputForm, AccountInputForm
+from portfolio.forms import TradeInputForm, AccountInputForm, PortfolioEditForm
 from portfolio.models import Trade, Accounts, TradeHistory
 
 
@@ -180,3 +180,50 @@ def accountInputView(request):
     }
 
     return render(request, 'portfolio/accounts_input.html', context)
+
+
+def portfolioEditView(request):
+    """View function for entering account info."""
+
+    # unpack the get request to retrieve ticker that we are editing
+    ticker = [*request.GET.keys()][0]
+    # get the model from the db
+    model, created = Trade.objects.get_or_create(pk=ticker)
+
+    # If this is a POST request then process the Form data
+    if request.method == 'POST':
+
+        # Create a form instance and populate it with data from the request (binding):
+        form = PortfolioEditForm(request.POST)
+
+        # Check if the form is valid:
+        if form.is_valid():
+            form.save()
+
+            # redirect to a new URL:
+            return HttpResponseRedirect(reverse('portfolio'))
+        else:
+            ## use pcb to debug django in console
+            # pdb.set_trace()
+            print(form.errors)
+
+    # If this is a GET (or any other method) create the default form.
+    else:
+        form = PortfolioEditForm(ticker=model.ticker,
+                                 long_name=model.long_name,
+                                 instrument=model.instrument,
+                                 sector=model.sector,
+                                 industry=model.industry,
+                                 price=model.price,
+                                 currency=model.currency,
+                                 quantity=model.quantity,
+                                 timestamp=model.timestamp,
+                                 action=model.action,
+                                 account=model.account)
+
+    context = {
+        'form': form
+    }
+
+    return render(request, 'portfolio/portfolio_edit.html', context)
+
