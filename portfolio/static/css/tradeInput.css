@@ -4,6 +4,13 @@
   max-width: 340px;
   margin: 10vh auto;
 }
+
+.user_edit {
+  width: 90%;
+  max-width: 340px;
+  margin: 10vh auto;
+}
+
 .user__header {
   text-align: center;
   opacity: 0;
@@ -24,8 +31,18 @@
   margin-top: 40px;
   transform: translate3d(0, 800px, 0);
   animation: arrive 500ms ease-in-out 0.9s forwards;
+  box-sizing: border-box;
+  background-color: #f2f2f2;
 }
 
+.form_edit {
+  margin-top: 40px;
+  transform: translate3d(0, 800px, 0);
+  animation: arrive 500ms ease-in-out 0.9s forwards;
+  box-sizing: border-box;
+  background-color: #f2f2f2;
+  border-radius: 6px;
+}
 
 /* Add this class to turn off animations used to load the original form so when refresh "shaker" animation it doesnt reload the form */
 .form--overwrite {
@@ -71,6 +88,24 @@ and there is no way to overwrite the parent. Thus create different classes so th
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
   overflow: hidden;
+}
+
+.form__input__round {
+  display: block;
+  width: 80%;
+  margin-left: 10%;
+  padding: 20px;
+  font-family: "Roboto";
+  -webkit-appearance: none;
+  border: 0;
+  outline: 0;
+  transition: 0.3s;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.form__input__round:focus {
+  background: #f7f7f7;
 }
 
 .form__input__top:focus {
@@ -139,4 +174,39 @@ and there is no way to overwrite the parent. Thus create different classes so th
   100% {
     background-position: 0 0;
   }
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.tooltip .tooltiptext {
+  width: 120px;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
+}
+
+.label_edit{
+  margin-left: 10%;
 }

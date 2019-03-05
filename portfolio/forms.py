@@ -114,16 +114,16 @@ class PortfolioEditForm(ModelForm):
                   'long_name', 'instrument']
 
         widgets = {
-            'ticker': TextInput(attrs={'class': 'form__input__top', 'placeholder': 'Ticker'}),
-            'long_name': TextInput(attrs={'class': "form__input", 'placeholder': 'Long Name'}),
-            'instrument': TextInput(attrs={'class': "form__input", 'placeholder': 'Instrument'}),
-            'sector': TextInput(attrs={'class': "form__input", 'placeholder': 'Sector'}),
-            'industry': TextInput(attrs={'class': "form__input", 'placeholder': 'Industry'}),
-            'price': TextInput(attrs={'class': "form__input", 'placeholder': 'Price'}),
-            'currency': Select(attrs={'class': 'form__input', 'placeholder': 'Currency', 'initial': 'Currency'}),
-            'quantity': TextInput(attrs={'class': 'form__input', 'placeholder': 'Quantity'}),
+            'ticker': TextInput(attrs={'class': 'form__input__round', 'placeholder': 'Ticker'}),
+            'long_name': TextInput(attrs={'class': "form__input__round", 'placeholder': 'Long Name'}),
+            'instrument': TextInput(attrs={'class': "form__input__round", 'placeholder': 'Instrument'}),
+            'sector': TextInput(attrs={'class': "form__input__round", 'placeholder': 'Sector'}),
+            'industry': TextInput(attrs={'class': "form__input__round", 'placeholder': 'Industry'}),
+            'price': TextInput(attrs={'class': "form__input__round", 'placeholder': 'Price'}),
+            'currency': Select(attrs={'class': 'form__input__round', 'placeholder': 'Currency', 'initial': 'Currency'}),
+            'quantity': TextInput(attrs={'class': 'form__input__round', 'placeholder': 'Quantity'}),
             'timestamp': DateTimePickerInput(format='%d/%m/%Y HH:mm', attrs={'placeholder': 'Purchase Date'}),
-            'action': Select(attrs={'class': 'form__input', 'placeholder': 'Action', 'initial': 'Action'}),
+            'action': Select(attrs={'class': 'form__input__round', 'placeholder': 'Action', 'initial': 'Action'}),
         }
 
     # add functionality to init to dynamically change the account field to a choice list of available broker accounts
@@ -136,7 +136,7 @@ class PortfolioEditForm(ModelForm):
         # reset the field as a choice field
         self.fields['account'] = forms.ChoiceField(choices=choices, label="Broker Account", required=False,
                                                    help_text='Must have at least one broker account set up',
-                                                   widget=Select(attrs={'class': 'form__input',
+                                                   widget=Select(attrs={'class': 'form__input__round',
                                                                         'placeholder': 'Broker Account'}))
         self.fields['ticker'].initial = ticker
         self.fields['long_name'].initial = long_name
@@ -148,5 +148,6 @@ class PortfolioEditForm(ModelForm):
         self.fields['quantity'].initial = quantity
         self.fields['timestamp'].initial = timestamp
         self.fields['action'].initial = action
+        self.fields['account'].initial = account
 
 
