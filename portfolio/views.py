@@ -7,6 +7,8 @@ from django.urls import reverse
 from django.views import generic
 import pdb
 
+from django.views.generic import TemplateView
+
 from portfolio.forms import TradeInputForm, AccountInputForm, PortfolioEditForm
 from portfolio.models import Trade, Accounts, TradeHistory
 
@@ -227,3 +229,13 @@ def portfolioEditView(request):
 
     return render(request, 'portfolio/portfolio_edit.html', context)
 
+
+class SimpleCandlestickWithPandas(TemplateView):
+    template_name = 'Market Data.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(SimpleCandlestickWithPandas, self).get_context_data(**kwargs)
+        context['map_chart'] = plots.get_simple_candlestick()
+        context['3dplot'] = plots.get_topographical_3D_surface_plot()
+        context['piechart'] = plots.pie_chart()
+        return context
