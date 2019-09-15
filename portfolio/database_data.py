@@ -40,7 +40,8 @@ def get_line_chart(data, x_label='timestamp', output_type='html', showlegend=Tru
         fig.add_trace(go.Scatter(x=data[x_label], y=data[y]))
 
     fig.update_layout(title_text=title,
-                      showlegend=showlegend)
+                      showlegend=showlegend,
+                      height=800)
 
     if output_type == 'html':
         plot_div = plot(fig, output_type='div', include_plotlyjs=False)
