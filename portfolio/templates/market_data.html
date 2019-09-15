@@ -1,0 +1,54 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; width=device-width;">
+        {% load static %}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <style>
+            body {
+                    background-image: url('/static/images/portfolioBackground1.jpg');
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                    height: 100%;
+                 }
+            table, th, td {
+                    text-align: center;
+                    }
+        </style>
+        <!-- remember to python manage.py collectstatic to ensure static is updated -->
+    </head>
+
+<!-- for some dappy reason this must be before charting rather than at the end???-->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+<body>
+    <div class = mainBlock>
+
+             <div class="card" style="width: 100%">
+              <div class="card-body">
+                {{map_chart|safe}}
+              </div>
+            </div>
+
+            <div class="card" style="width: 100%">
+              <div class="card-body">
+                {{volatility_chart|safe}}
+              </div>
+            </div>
+
+            <div class="card" style="width: 100%">
+              <div class="card-body">
+                {{market_chart|safe}}
+              </div>
+            </div>
+
+            <div class="card" style="width: 100%">
+              <div class="card-body">
+                {{backtest_chart|safe}}
+              </div>
+            </div>
+    </div>
+
+{% endblock %}

@@ -30,7 +30,8 @@ urlpatterns += [
     path('', RedirectView.as_view(url='/portfolio/')),
     path('portfolio/', views.TradeListView.as_view(), name='portfolio'),
     path('accounts/', views.AccountListView.as_view(), name='accounts'),
-    path('order history/', views.TradeHistoryListView.as_view(), name='orderHistory')
+    path('order history/', views.TradeHistoryListView.as_view(), name='orderHistory'),
+    path('market data/', views.MarketDataCharts.as_view(), name='marketData')
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

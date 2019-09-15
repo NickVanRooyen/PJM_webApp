@@ -9,6 +9,7 @@ import pdb
 
 from django.views.generic import TemplateView
 
+from portfolio.database_data import get_map_chart, get_volatility_chart, get_market_chart, get_backtest_chart
 from portfolio.forms import TradeInputForm, AccountInputForm, PortfolioEditForm
 from portfolio.models import Trade, Accounts, TradeHistory
 
@@ -230,12 +231,17 @@ def portfolioEditView(request):
     return render(request, 'portfolio/portfolio_edit.html', context)
 
 
-class SimpleCandlestickWithPandas(TemplateView):
-    template_name = 'Market Data.html'
+# template view for market data charts
+class MarketDataCharts(TemplateView):
+    template_name = 'market_data.html'
 
     def get_context_data(self, **kwargs):
-        context = super(SimpleCandlestickWithPandas, self).get_context_data(**kwargs)
-        context['map_chart'] = plots.get_simple_candlestick()
-        context['3dplot'] = plots.get_topographical_3D_surface_plot()
-        context['piechart'] = plots.pie_chart()
+        context = super(MarketDataCharts, self).get_context_data(**kwargs)
+        # add charts to context using defined functions for generating
+        context['map_chart'] = get_map_chart()
+        context['volatility_chart'] = get_volatility_chart()
+        context['market_chart'] = get_market_chart()
+        context['backtest_chart'] = get_backtest_chart()
+        #pdb.set_trace()
+
         return context
