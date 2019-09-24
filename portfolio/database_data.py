@@ -33,6 +33,18 @@ def get_market_chart():
                           title='Normalized Market Price')
 
 
+def get_crypto_charts():
+    chart_list = []
+    charts = dBaseAction(stocks.dBase, """SELECT name FROM sqlite_master WHERE type='table'""")[0].iloc[:,0]
+    charts = charts[charts.str.contains('crypto_chart_')].tolist()
+    for chart in charts:
+        chart_data = dBaseAction(stocks.dBase, """select * from %s """ % chart)[0]
+        title = chart.replace('crypto_chart_', '').replace('_', ' ')
+        chart_list.append(get_line_chart(data=chart_data, x_label='timestamp', output_type='html',
+                                         showlegend=False, title=title))
+    return chart_list
+
+
 def get_line_chart(data, x_label='timestamp', output_type='html', showlegend=True, title='Chart'):
     fig = go.Figure()
 

@@ -9,7 +9,8 @@ import pdb
 
 from django.views.generic import TemplateView
 
-from portfolio.database_data import get_map_chart, get_volatility_chart, get_market_chart, get_backtest_chart
+from portfolio.database_data import get_map_chart, get_volatility_chart, get_market_chart, get_backtest_chart, \
+    get_crypto_charts
 from portfolio.forms import TradeInputForm, AccountInputForm, PortfolioEditForm
 from portfolio.models import Trade, Accounts, TradeHistory
 
@@ -244,4 +245,18 @@ class MarketDataCharts(TemplateView):
         context['backtest_chart'] = get_backtest_chart()
         #pdb.set_trace()
 
+        return context
+
+
+# template view for market crypto data charts
+class CryptoMarketDataCharts(TemplateView):
+    template_name = 'crypto_market_data.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(CryptoMarketDataCharts, self).get_context_data(**kwargs)
+        # add charts to context using defined functions for generating
+        charts = get_crypto_charts()
+        # context is a dict that we assign a key and a value, thus in theory could pass anything realy
+        context['charts'] = charts
+        # pdb.set_trace()
         return context

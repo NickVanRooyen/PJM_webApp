@@ -31,7 +31,8 @@ urlpatterns += [
     path('portfolio/', views.TradeListView.as_view(), name='portfolio'),
     path('accounts/', views.AccountListView.as_view(), name='accounts'),
     path('order history/', views.TradeHistoryListView.as_view(), name='orderHistory'),
-    path('market data/', views.MarketDataCharts.as_view(), name='marketData')
+    path('stock market analysis/', views.MarketDataCharts.as_view(), name='marketData'),
+    path('crypto market analysis/', views.CryptoMarketDataCharts.as_view(), name='cryptoMarketData')
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
