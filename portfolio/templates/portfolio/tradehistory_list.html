@@ -6,6 +6,7 @@
         <meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; width=device-width;">
         {% load static %}
         <link rel="stylesheet" href="{% static 'css/tradeTable.css' %}">
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <style>
             body {
                     background-image: url('/static/images/portfolioBackground1.jpg');
@@ -40,6 +41,7 @@
                   <th>Time Stamp</th>
                   <th>Account</th>
                   <th>Action</th>
+                  <th></th>
                 </tr>
             </thead>
 
@@ -63,8 +65,17 @@
                         {% else %}
                             <td class="PositiveValue">{{order.action}}</td>
                         {% endif %}
+
+                        <td>
+                            <form action="{% url 'historyEdit' %}" method='GET'>
+                                <!-- assign name to input so that can identify which ticker the button was clicked for-->
+                                <button type="submit" style="font-size:16px;background:#EBEBEB;border:0" name={{order.id}} value=""><i class="fa fa-edit" style="font-size:16px"></i></button>
+                            </form>
+                        </td>
+
                     </tr>
                 {% endfor %}
+
             </tbody>
         </table>
     {% else %}

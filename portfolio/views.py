@@ -11,7 +11,7 @@ from django.views.generic import TemplateView
 
 from portfolio.database_data import get_map_chart, get_volatility_chart, get_market_chart, get_backtest_chart, \
     get_crypto_charts
-from portfolio.forms import TradeInputForm, AccountInputForm, PortfolioEditForm
+from portfolio.forms import TradeInputForm, AccountInputForm, PortfolioEditForm, HistoryEditForm, AccountEditForm
 from portfolio.models import Trade, Accounts, TradeHistory
 
 
@@ -197,8 +197,9 @@ def portfolioEditView(request):
     # If this is a POST request then process the Form data
     if request.method == 'POST':
 
+        #pdb.set_trace()
         # Create a form instance and populate it with data from the request (binding):
-        form = PortfolioEditForm(request.POST)
+        form = TradeInputForm(request.POST, instance=model)
 
         # Check if the form is valid:
         if form.is_valid():
@@ -225,11 +226,102 @@ def portfolioEditView(request):
                                  action=model.action,
                                  account=model.account)
 
+        #'long_name', 'instrument', 'sector', 'industry', 'price', 'currency', 'quantity', 'timestamp', 'action', and 'account'
+
     context = {
         'form': form
     }
 
-    return render(request, 'portfolio/portfolio_edit.html', context)
+    return render(request, 'portfolio/model_edit.html', context)
+
+
+def historyEditView(request):
+    """View function for editing trade history."""
+
+    # unpack the get request to retrieve ticker that we are editing
+    id = [*request.GET.keys()][0]
+    #pdb.set_trace()
+    # get the model from the db
+    model, created = TradeHistory.objects.get_or_create(pk=id)
+
+    # If this is a POST request then process the Form data
+    if request.method == 'POST':
+
+        # Create a form instance and populate it with data from the request (binding):
+        form = TradeInputForm(request.POST, instance=model)
+
+        # Check if the form is valid:
+        if form.is_valid():
+            # update trade history
+            form.save()
+
+            # redirect to a new URL:
+            return HttpResponseRedirect(reverse('orderHistory'))
+        else:
+            ## use pcb to debug django in console
+            # pdb.set_trace()
+            print(form.errors)
+
+    # If this is a GET (or any other method) create the default form.
+    else:
+        form = HistoryEditForm(ticker=model.ticker,
+                               long_name=model.long_name,
+                               instrument=model.instrument,
+                               sector=model.sector,
+                               industry=model.industry,
+                               price=model.price,
+                               currency=model.currency,
+                               quantity=model.quantity,
+                               timestamp=model.timestamp,
+                               action=model.action,
+                               account=model.account,
+                               fee=model.fee,
+                               id=model.id)
+
+    context = {
+        'form': form
+    }
+
+    return render(request, 'portfolio/model_edit.html', context)
+
+
+def accountsEditView(request):
+    """View function for editing Account balances"""
+
+    # unpack the get request to retrieve ticker that we are editing
+    account = [*request.GET.keys()][0]
+    # get the model from the db
+    model, created = Accounts.objects.get_or_create(pk=account)
+
+    # If this is a POST request then process the Form data
+    if request.method == 'POST':
+
+        # Create a form instance and populate it with data from the request (binding):
+        form = AccountInputForm(request.POST, instance=model)
+
+        # Check if the form is valid:
+        if form.is_valid():
+            form.save()
+
+            # redirect to a new URL:
+            return HttpResponseRedirect(reverse('accounts'))
+        else:
+            ## use pcb to debug django in console
+            # pdb.set_trace()
+            print(form.errors)
+
+    # If this is a GET (or any other method) create the default form.
+    else:
+        form = AccountEditForm(account=model.account,
+                               broker=model.broker,
+                               ccy=model.ccy,
+                               balance=model.balance)
+
+    context = {
+        'form': form
+    }
+
+    return render(request, 'portfolio/model_edit.html', context)
 
 
 # template view for market data charts

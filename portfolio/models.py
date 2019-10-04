@@ -1,5 +1,6 @@
 import requests
 from django.db import models
+import portfolio.config as config
 
 # Create your models here.
 
@@ -27,21 +28,17 @@ class TradeHistory(models.Model):
     instrument = models.CharField('Instrument', max_length=50, blank=True)
 
     def save(self, *args, **kwargs):
-        self.id = '%s_%s' % (self.ticker, str(self.timestamp))
+        # spaces cause problems in html
+        self.id = '%s_%s' % (self.ticker, str(self.timestamp).replace(' ', '_'))
         super(TradeHistory, self).save(*args, **kwargs)
 
 
 class Trade(models.Model):
     """ model for trade instances """
 
-    ACTIONS = (('', 'Action'),
-               ("buy", "BUY"),
-               ("sell", "SELL"),)
+    CCYS = config.CCYS
+    ACTIONS = config.ACTIONS
 
-    CCYS = (('', 'Currency'),
-            ("EUR", "EUR"),
-            ("GBP", "GBP"),
-            ("USD", "USD"),)
 
     # set ticker as primary key
     ticker = models.CharField('Ticker', max_length=7, primary_key=True, blank=True)
@@ -83,10 +80,7 @@ def get_account(broker, ccy):
 class Accounts(models.Model):
     """ model for cash accounts """
 
-    CCYS = (('', 'Currency'),
-            ("EUR", "EUR"),
-            ("GBP", "GBP"),
-            ("USD", "USD"),)
+    CCYS = config.CCYS
 
     # set ticker as primary key
     # define account that holds cash
