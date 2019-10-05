@@ -81,6 +81,12 @@ class TradeInputForm(ModelForm):
             raise ValidationError('Input currency does not match account currency, input trade price and fees in '
                                   'currency of Broker account')
         if self.cleaned_data['action'] == 'buy':
+            if 'fee' not in self.cleaned_data.keys():
+                raise ValidationError('Fee error')
+            if 'quantity' not in self.cleaned_data.keys():
+                raise ValidationError('Quantity Error')
+            if 'price' not in self.cleaned_data.keys():
+                raise ValidationError('Price Error')
             totalSpend = self.cleaned_data['quantity'] * self.cleaned_data['price'] + self.cleaned_data['fee']
             if totalSpend > accountInfo.balance:
                 raise ValidationError('Cost of trade greater than Broker Account balance, add cash to facilitate trade')

@@ -198,6 +198,8 @@ def portfolioEditView(request):
     if request.method == 'POST':
 
         #pdb.set_trace()
+        # add fee to model
+        #setattr(model, 'fee', request.POST['fee'])
         # Create a form instance and populate it with data from the request (binding):
         form = TradeInputForm(request.POST, instance=model)
 
