@@ -43,5 +43,6 @@ urlpatterns += [
     path('edit portfolio/', views.portfolioEditView, name='portfolioEdit'),
     path('edit history/', views.historyEditView, name='historyEdit'),
     path('edit accounts/', views.accountsEditView, name='accountsEdit'),
+    path('delete entry/', views.deleteRecord, name='deleteView'),
 ]
 

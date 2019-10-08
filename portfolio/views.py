@@ -10,7 +10,7 @@ import pdb
 from django.views.generic import TemplateView
 
 from portfolio.database_data import get_map_chart, get_volatility_chart, get_market_chart, get_backtest_chart, \
-    get_crypto_charts
+    get_crypto_charts, update_db_portfolio
 from portfolio.forms import TradeInputForm, AccountInputForm, PortfolioEditForm, HistoryEditForm, AccountEditForm
 from portfolio.models import Trade, Accounts, TradeHistory
 
@@ -129,6 +129,9 @@ def tradeInputView(request):
                 # saves to database
                 instance.save()
 
+            # update mongo database to reflect data in webpage database
+            update_db_portfolio()
+
             # redirect to a new URL:
             return HttpResponseRedirect(reverse('portfolio'))
         else:
@@ -206,6 +209,8 @@ def portfolioEditView(request):
         # Check if the form is valid:
         if form.is_valid():
             form.save()
+            # update mongo database to reflect data in webpage database
+            update_db_portfolio()
 
             # redirect to a new URL:
             return HttpResponseRedirect(reverse('portfolio'))
@@ -228,10 +233,9 @@ def portfolioEditView(request):
                                  action=model.action,
                                  account=model.account)
 
-        #'long_name', 'instrument', 'sector', 'industry', 'price', 'currency', 'quantity', 'timestamp', 'action', and 'account'
-
     context = {
-        'form': form
+        'form': form,
+        'model': 'Trade'
     }
 
     return render(request, 'portfolio/model_edit.html', context)
@@ -242,13 +246,12 @@ def historyEditView(request):
 
     # unpack the get request to retrieve ticker that we are editing
     id = [*request.GET.keys()][0]
-    #pdb.set_trace()
+
     # get the model from the db
     model, created = TradeHistory.objects.get_or_create(pk=id)
 
     # If this is a POST request then process the Form data
     if request.method == 'POST':
-
         # Create a form instance and populate it with data from the request (binding):
         form = TradeInputForm(request.POST, instance=model)
 
@@ -281,7 +284,8 @@ def historyEditView(request):
                                id=model.id)
 
     context = {
-        'form': form
+        'form': form,
+        'model': 'TradeHistory'
     }
 
     return render(request, 'portfolio/model_edit.html', context)
@@ -320,7 +324,8 @@ def accountsEditView(request):
                                balance=model.balance)
 
     context = {
-        'form': form
+        'form': form,
+        'model': 'Accounts'
     }
 
     return render(request, 'portfolio/model_edit.html', context)
@@ -354,3 +359,32 @@ class CryptoMarketDataCharts(TemplateView):
         context['charts'] = charts
         # pdb.set_trace()
         return context
+
+
+def deleteRecord(request):
+    """View function for deleting line items """
+
+    # unpack the get request to retrieve ticker that we are editing
+    id = [*request.GET.keys()][0]
+    model_type = request.GET[id]
+
+    if model_type == 'portfolio':
+        base_page = 'portfolio'
+        model, created = Trade.objects.get_or_create(pk=id)
+    elif model_type == 'Accounts':
+        base_page = 'accounts'
+        model, created = Accounts.objects.get_or_create(pk=id)
+    elif model_type == 'history':
+        base_page = 'orderHistory'
+        model, created = TradeHistory.objects.get_or_create(pk=id)
+    else:
+        raise ValueError('delete type "%s" not recognised' % model_type)
+
+    model.delete()
+
+    if model_type == 'portfolio':
+        # update mongo database to reflect data in webpage database
+        update_db_portfolio()
+
+    return HttpResponseRedirect(reverse(base_page))
+

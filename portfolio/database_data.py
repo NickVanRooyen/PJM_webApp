@@ -3,11 +3,13 @@ import plotly.graph_objects as go
 import pandas as pd
 from datetime import datetime
 import sys
+
 from portfolio import config
 import sys
 sys.path.append(config.code_path)
 from dataUtils.dataUtils import dBaseAction
 import AlgorithcTrading.config.stocks as stocks
+from database.mongoDB import MongoDB
 
 
 def get_map_chart():
@@ -39,6 +41,7 @@ def get_crypto_charts():
     charts = charts[charts.str.contains('crypto_chart_')].tolist()
     for chart in charts:
         chart_data = dBaseAction(stocks.dBase, """select * from %s """ % chart)[0]
+        chart_data = chart_data.sort_values(by='timestamp').reset_index(drop=True)
         title = chart.replace('crypto_chart_', '').replace('_', ' ')
         chart_list.append(get_line_chart(data=chart_data, x_label='timestamp', output_type='html',
                                          showlegend=False, title=title))
@@ -60,3 +63,15 @@ def get_line_chart(data, x_label='timestamp', output_type='html', showlegend=Tru
         return plot_div
     elif output_type == 'chart':
         plot(fig, filename='file.html')
+
+
+def update_db_portfolio():
+    """ Use to copy webpage database to mongo db portfolio so they match """
+    portfolio_data = dBaseAction(stocks.dBase, """select * from %s""" % stocks.web_portfolio)[0]
+    mdb = MongoDB()
+    portfolio_data['timestamp'] = portfolio_data['timestamp'].astype('datetime64[D]')
+    portfolio_data['portfolio'] = 'portfolio'
+    portfolio_data = mdb.getMultiIndex(portfolio_data, ['portfolio'])
+    mdb.save(portfolio_data, stocks.portfolio, append=False)
+
+    #portfolio = mdb.read(stocks.portfolio)['portfolio']['data']
