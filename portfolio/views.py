@@ -1,19 +1,115 @@
+import sys
+from portfolio import config
+sys.path.append(config.code_path)
+
 from decimal import Decimal
 
+import django
+import os
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "PJM_webApp.settings")
+django.setup()
+
+import pandas as pd
+
 import requests
+from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.views import generic
 import pdb
+from django.contrib.auth.models import User
 
 from django.views.generic import TemplateView
 
+from dataUtils.dataUtils import dBaseAction, writeDBv2
+import AlgorithcTrading.config.stocks as stocks
 from portfolio.database_data import get_map_chart, get_volatility_chart, get_market_chart, get_backtest_chart, \
     get_crypto_charts, update_db_portfolio
-from portfolio.forms import TradeInputForm, AccountInputForm, PortfolioEditForm, HistoryEditForm, AccountEditForm
+from portfolio.forms import TradeInputForm, AccountInputForm, PortfolioEditForm, HistoryEditForm, AccountEditForm, \
+    LoginForm, CreateUserForm
 from portfolio.models import Trade, Accounts, TradeHistory
 
+
+def loginView(request):
+
+    # If this is a POST request then process the Form data
+    if request.method == 'POST':
+        # Create a form instance and populate it with data from the request (binding):
+        form = LoginForm(request.POST)
+
+        # Check if the form is valid:
+        if form.is_valid():
+            username = request.POST['username']
+            password = request.POST['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return HttpResponseRedirect(reverse('portfolio'))
+            else:
+
+                # add custom error to form
+                form.add_error('username', 'Username and Password combination not found...')
+                print(form.errors)
+
+            # create a user based on the inputs
+            #user = User.objects.create_user(username=, email=, password=)
+            #user.save()
+
+        else:
+            print(form.errors)
+
+    # If this is a GET (or any other method) create the default form.
+    else:
+        form = LoginForm
+
+    context = {
+        'form': form
+    }
+
+    return render(request, 'portfolio/login.html', context)
+
+
+def createUserView(request):
+
+    # If this is a POST request then process the Form data
+    if request.method == 'POST':
+        # Create a form instance and populate it with data from the request (binding):
+        form = CreateUserForm(request.POST)
+
+        # Check if the form is valid:
+        if form.is_valid():
+            username = request.POST['username']
+            email = request.POST['email']
+            password = request.POST['password']
+
+            user = User.objects.create_user(username=username, email=email, password=password)
+            pdb.set_trace()
+            user.save()
+
+            # create a new portfolio, order history and account for user by using 1st row from master table
+            portfolio_columns = dBaseAction(stocks.dBase,""" select * from %s limit 1""" % stocks.web_portfolio)[0].columns
+            orderHistory_columns = dBaseAction(stocks.dBase,""" select * from %s limit 1""" % stocks.web_order_history)[0].columns
+            accounts_columns = dBaseAction(stocks.dBase,""" select * from %s limit 1""" % stocks.web_accounts)[0].columns
+
+            writeDBv2(stocks.dBase, '%s_%s' % (stocks.web_portfolio, username), pd.DataFrame([], columns=portfolio_columns))
+
+
+
+            return HttpResponseRedirect(reverse('portfolio'))
+
+        else:
+            print(form.errors)
+
+    # If this is a GET (or any other method) create the default form.
+    else:
+        form = CreateUserForm
+
+    context = {
+        'form': form
+    }
+
+    return render(request, 'portfolio/create_login.html', context)
 
 class TradeListView(generic.ListView):
     model = Trade

@@ -246,4 +246,26 @@ class AccountEditForm(ModelForm):
         self.fields['balance'].initial = balance
 
 
+# login page form
+class LoginForm(forms.Form):
+    # set a default fee for the input form
+    username = forms.CharField(widget=TextInput(attrs={'class': 'form__input__round',
+                                                       'placeholder': '', 'initial': ''}))
+    password = forms.CharField(widget=TextInput(attrs={'class': 'form__input__round',
+                                                       'placeholder': '', 'initial': ''}))
+
+
+# login page form
+class CreateUserForm(forms.Form):
+    # set a default fee for the input form
+    email = forms.CharField(widget=TextInput(attrs={'class': 'form__input',
+                                                    'placeholder': 'Email Address', 'initial': 'Email Address'}))
+    username = forms.CharField(widget=TextInput(attrs={'class': 'form__input',
+                                                       'placeholder': 'Username', 'initial': 'Username'}))
+    password = forms.CharField(widget=TextInput(attrs={'class': 'form__input',
+                                                       'placeholder': 'Password', 'initial': 'Password'}))
+
+
+
+
 

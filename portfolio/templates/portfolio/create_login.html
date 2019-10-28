@@ -36,17 +36,16 @@
 
     <div class="user">
         <header class="user__header">
-            <h1 class="user__title">Edit Information</h1>
+            <h1 class="user__title"Login></h1>
         </header>
 
-        <form class="form_edit" method="post">
+        <form class="form" method="post">
             {% csrf_token %}
             <!-- bootstrap date picker needs form media presented to load all JS and CSS needed to display calendar-->
             {{ form.media }}
             {% for field in form %}
             <!--<input type="text" class="form__input" placeholder={{ field.label }} name={{ form.name}}/>-->
                     <div class = form__group>
-                        <label class="label_edit">{{ field.label }}</label>
                         {{ field }}
                     </div>
             {% endfor %}

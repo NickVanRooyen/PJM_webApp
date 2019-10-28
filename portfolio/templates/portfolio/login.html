@@ -36,7 +36,7 @@
 
     <div class="user">
         <header class="user__header">
-            <h1 class="user__title">Edit Information</h1>
+            <h1 class="user__title"Login></h1>
         </header>
 
         <form class="form_edit" method="post">
@@ -50,6 +50,8 @@
                         {{ field }}
                     </div>
             {% endfor %}
+
+            <a href="{% url 'createUser' %}" class="form__input">Not Registered? Sign up...</a>
 
             <input class="btn" type="submit" value="Submit"/>
 

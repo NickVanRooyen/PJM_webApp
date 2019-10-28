@@ -15,6 +15,13 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# REMEMBER to set the settings variable for django
+# import django
+# import os
+# os.environ.setdefault("DJANGO_SETTINGS_MODULE", "PJM_webApp.settings")
+# django.setup()
+# from django.contrib.auth.models import User
+# superusers = User.objects.filter(is_superuser=True)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
