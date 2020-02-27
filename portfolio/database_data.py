@@ -72,6 +72,11 @@ def update_db_portfolio():
     portfolio_data['timestamp'] = portfolio_data['timestamp'].astype('datetime64[D]')
     portfolio_data['portfolio'] = 'portfolio'
     portfolio_data = mdb.getMultiIndex(portfolio_data, ['portfolio'])
-    mdb.save(portfolio_data, stocks.portfolio, append=False)
+
+    if len(portfolio_data) == 0:
+        # there is no data so write empty data set
+        mdb.conn[stocks.portfolio].write(stocks.portfolio, portfolio_data, metadata={})
+    else:
+        mdb.save(portfolio_data, stocks.portfolio, append=False)
 
     #portfolio = mdb.read(stocks.portfolio)['portfolio']['data']
