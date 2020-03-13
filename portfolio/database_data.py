@@ -26,7 +26,12 @@ def get_volatility_chart():
 def get_backtest_chart():
     backtest_chart = dBaseAction(stocks.dBase, """select * from %s """ % stocks.backtest_chart)[0]
     return get_line_chart(data=backtest_chart, x_label='timestamp', output_type='html', showlegend=False,
-                          title='Hypothetical Trading Performance')
+                          title='Hypothetical Trading Performance - Selection Strategy')
+
+def get_market_backtest_chart():
+    backtest_chart = dBaseAction(stocks.dBase, """select * from %s """ % stocks.market_backtest_chart)[0]
+    return get_line_chart(data=backtest_chart, x_label='timestamp', output_type='html', showlegend=False,
+                          title='Hypothetical Trading Performance - Market Strategy')
 
 
 def get_market_chart():
