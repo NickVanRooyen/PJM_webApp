@@ -25,7 +25,7 @@ from django.views.generic import TemplateView
 from dataUtils.dataUtils import dBaseAction, writeDBv2
 import AlgorithcTrading.config.stocks as stocks
 from portfolio.database_data import get_map_chart, get_volatility_chart, get_market_chart, get_backtest_chart, \
-    get_crypto_charts, update_db_portfolio, get_market_backtest_chart
+    get_crypto_charts, update_db_portfolio, get_market_backtest_chart, get_market_reversion_chart
 from portfolio.forms import TradeInputForm, AccountInputForm, PortfolioEditForm, HistoryEditForm, AccountEditForm, \
     LoginForm, CreateUserForm
 from portfolio.models import Trade, Accounts, TradeHistory
@@ -439,6 +439,7 @@ class MarketDataCharts(TemplateView):
         context['market_chart'] = get_market_chart()
         context['backtest_chart'] = get_backtest_chart()
         context['market_backtest_chart'] = get_market_backtest_chart()
+        context['market_reversion_chart'] = get_market_reversion_chart()
 
         #pdb.set_trace()
 
